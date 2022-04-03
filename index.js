@@ -1,9 +1,9 @@
-const createHTML = require('./src/createHTML');
 const fs = require('fs');
 const inquire = require('inquirer');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern')
+const createHTML = require('./src/createHTML');
 const teamArray = [];
 
 const ManagerQuestions = () => {
@@ -79,6 +79,7 @@ const EmployeeInfo = () => {
                 }
             }
         },
+
         {
             type: 'input',
             name: 'email',
@@ -99,6 +100,7 @@ const EmployeeInfo = () => {
                 };
             }
         },
+
         {
             type: 'input',
             name: 'school',
@@ -112,6 +114,7 @@ const EmployeeInfo = () => {
                 }
             }
         },
+
         {
             type: 'confirm',
             name: 'confirmAddEmployee',
