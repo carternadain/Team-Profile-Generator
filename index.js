@@ -24,7 +24,7 @@ const ManagerQuestions = () => {
         {
             type: 'input',
             name: 'id',
-            message: "What is the manager's ID?",
+            message: "What is the manager's id?",
             
         },
         {
@@ -119,7 +119,9 @@ const EmployeeInfo = () => {
             default: false
         }
 
-    ]).then(employeeData => {
+    ])
+    
+    .then(employeeData => {
         let {name, id, email, role, github, school, confirmEmployeeInfo} = employeeData;
         let employee;
 
