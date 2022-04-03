@@ -1,29 +1,22 @@
-const Employee = require('..lib/Employee.js');
+const { expect, test } = require('@jest/globals');
+const Employee = require('../lib/Employee');
 
-
-test('Create an employee object', () => {
-    const employee = new Employee('Carter','1', 'email@address.com')
-    expect(employee.name).toBe('Carter')
-    expect(employee.id).toBe('1')
-    expect(employee.email).toBe('email@address.com')
+test('get employee name', () => {
+    const employee = new Employee('Carter', 1, 'example@email.com')
+    expect(employee.getName()).toEqual(expect.any(String))
 })
 
-test('get the employee name', () => {
-    const employee = new Employee('Carter','1', 'email@address.com')
-    expect(employee.getName()).toBe('Carter')
+test('get employee id', () => {
+    const employee = new Employee('Carter', 1, 'example@email.com')
+    expect(employee.getId()).toEqual(expect.any(Number))
 })
 
-test('get the employee id', () => {
-    const employee = new Employee('Carter','1', 'email@address.com')
-    expect(employee.getId()).toBe('1')
+test('get employee email', () => {
+    const employee = new Employee('Carter', 1, 'example@email.com')
+    expect(employee.getEmail()).toEqual(expect.stringContaining(employee.email.toString()));
 })
 
-test('get the employee email', () => {
-    const employee = new Employee('Carter','1', 'email@address.com')
-    expect(employee.getEmail()).toBe('email@example.com')
-})
-
-test('get the employee role', () => {
-    const employee = new Employee('Carter','1', 'email@address.com')
-    expect(employee.getRole()).toBe('Employee')
+test('get employee email', () => {
+    const employee = new Employee('Carter', 1, 'example@email.com')
+    expect(employee.getRole()).toEqual('Employee');
 })
