@@ -1,12 +1,14 @@
 const createHTML = require('./src/createHTML');
 const fs = require('fs');
 const inquire = require('inquirer');
-const Manager = require('./lib/Manager');
+
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern')
+const Manager = require('./lib/Manager');
+
 const teamArray = [];
 
-const ManagerQuestions = () => {
+const addManager = () => {
     return inquire.prompt ([
         {
             type: 'input',
@@ -25,21 +27,41 @@ const ManagerQuestions = () => {
             type: 'input',
             name: 'id',
             message: "What is the manager's ID?",
-            
+            validate: nameInput => {
+                if (isNaN(nameInput)) {
+                    console.log("Please enter the manager's ID!")
+                    return false;
+                } else {
+                    return true;
+                }
+            }
         },
         {
             type: 'input',
             name: 'email',
             message: "What is the manager's email?",
-           
+            validate: nameInput => {
+                if (nameInput) {
+                    return true;
+                } else {
+                    console.log("Please enter the manager's email!");
+                    return false;
+                }
+            }
         },
         {
             type: 'input',
             name: 'officeNumber',
             message: "What is the manager's office number?",
-            
+            validate: nameInput => {
+                if (isNaN(nameInput)) {
+                    console.log('Please enter an office number!');
+                    return false;
+                } else {
+                    return true;
+                }
+            }
         }
-
     ]).then(managerInput => {
         const {name, id, email, officeNumber} = managerInput;
         const manager = new Manager (name, id, email, officeNumber);
@@ -49,7 +71,7 @@ const ManagerQuestions = () => {
     });
 }
 
-const EmployeeInfo = () => {
+const addEmployee = () => {
     return inquire.prompt ([
         {
             type: 'list',
@@ -57,16 +79,20 @@ const EmployeeInfo = () => {
             message: "Please choose your employee's role",
             choices: ["Engineer", "Intern"]
         },
-
         {
             type: 'input',
             name: 'name',
             message: "What is the name of your employee?",
-           
+            validate: nameInput => {
+                if (nameInput) {
+                    return true;
+                } else {
+                    console.log("Please enter the employee's name!");
+                    return false;
+                }
+            }
         },
-
         {
-
             type: 'input',
             name: 'id',
             message: "Please enter the employee's ID.",
@@ -83,9 +109,16 @@ const EmployeeInfo = () => {
             type: 'input',
             name: 'email',
             message: "Please enter the employee's email:",
-           
+            validate: email => {
+                valid = /^\w+([\.-]?w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+                if (valid) {
+                    return true;
+                } else {
+                    console.log ('Please enter a valid emial!')
+                    return false;
+                }
+            }
         },
-
         {
             type: 'input',
             name: 'github',
@@ -120,7 +153,7 @@ const EmployeeInfo = () => {
         }
 
     ]).then(employeeData => {
-        let {name, id, email, role, github, school, confirmEmployeeInfo} = employeeData;
+        let {name, id, email, role, github, school, confirmAddEmployee} = employeeData;
         let employee;
 
         if (role === "Engineer") {
@@ -134,8 +167,8 @@ const EmployeeInfo = () => {
 
         teamArray.push(employee);
 
-        if (confirmEmployeeInfo) {
-            return EmployeeInfo(teamArray);
+        if (confirmAddEmployee) {
+            return addEmployee(teamArray);
 
         } else {
             return teamArray;
@@ -154,8 +187,8 @@ const writeFile = data => {
     })
 };
 
-ManagerQuestions()
-.then(EmployeeInfo)
+addManager()
+.then(addEmployee)
 .then(teamArray => {
     return createHTML(teamArray);
 
